@@ -1,11 +1,16 @@
 import Swal from "sweetalert2";
 import { useState } from "react";
 import admissionValidationSchema from "../validations/admissionValidation";
+import { useNavigate } from "react-router-dom";
+
 
 const useAdmissionForm = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const [submittedData, setSubmittedData] = useState(null);
+
+    const navigate = useNavigate();
+
 
   const initialValues = {
     title: "",
@@ -53,6 +58,10 @@ const useAdmissionForm = () => {
         icon: "success",
         confirmButtonColor: "#2563eb",
       });
+
+        navigate("/confirmation", {
+          state: values,
+        });
 
       resetForm();
     }

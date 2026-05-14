@@ -43,6 +43,12 @@
   - pages/
     - AdmissionPage.jsx
 
+  -style/
+    -AdmissionForm.css
+
+  -validation
+    -admissionVAlidation.js
+
   - App.jsx
   - main.jsx
   - index.css
