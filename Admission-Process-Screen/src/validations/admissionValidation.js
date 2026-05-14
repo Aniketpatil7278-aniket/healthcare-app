@@ -43,7 +43,7 @@ const admissionValidationSchema = Yup.object({
     .required("City is required"),
 
   state: Yup.string()
-    .matches(/^[A-Za-z\s]+$/, "Only letters allowed")
+    .matches(/^[A-Za-z\s]+$/, "Only letters allowed ")
     .required("State is required"),
 
   zipCode: Yup.string()
