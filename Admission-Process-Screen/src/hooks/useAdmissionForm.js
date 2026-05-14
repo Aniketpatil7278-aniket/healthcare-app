@@ -1,8 +1,13 @@
-import { useState } from "react";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import admissionValidationSchema from "../validations/admissionValidation";
 
 const useAdmissionForm = () => {
-  const initialFormData = {
+  const [submitted, setSubmitted] = useState(false);
+
+  const [submittedData, setSubmittedData] = useState(null);
+
+  const initialValues = {
     title: "",
     patientName: "",
     dob: "",
@@ -26,24 +31,7 @@ const useAdmissionForm = () => {
     notes: "",
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-
-  // CHANGE HERE ✅
-  const [submitted, setSubmitted] = useState(false);
-
-  // ADD THIS ✅
-  const [submittedData, setSubmittedData] = useState(null);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async (values, { resetForm }) => {
     const result = await Swal.fire({
       title: "Confirm Submission?",
       text: "Do you want to submit this admission form?",
@@ -52,14 +40,12 @@ const useAdmissionForm = () => {
       confirmButtonColor: "#2563eb",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, Submit",
-      cancelButtonText: "Cancel",
     });
 
     if (result.isConfirmed) {
       setSubmitted(true);
 
-      // ADD THIS ✅
-      setSubmittedData(formData);
+      setSubmittedData(values);
 
       Swal.fire({
         title: "Admission Submitted!",
@@ -68,17 +54,16 @@ const useAdmissionForm = () => {
         confirmButtonColor: "#2563eb",
       });
 
-      // CLEAR FORM ✅
-      setFormData(initialFormData);
+      resetForm();
     }
   };
 
   return {
-    formData,
-    submitted,
-    submittedData, // ADD THIS ✅
-    handleChange,
+    initialValues,
+    validationSchema: admissionValidationSchema,
     handleSubmit,
+    submitted,
+    submittedData,
   };
 };
 

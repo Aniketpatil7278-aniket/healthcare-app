@@ -1,440 +1,428 @@
 import doctors from "../data/dummaydata";
 import useAdmissionForm from "../hooks/useAdmissionForm";
 import { FaUserDoctor } from "react-icons/fa6";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import "../style/AdmissionForm.css";
 
 const AdmissionForm = () => {
-  const { formData, submitted, submittedData, handleChange, handleSubmit } =
-    useAdmissionForm();
+  const {
+    initialValues,
+    validationSchema,
+    handleSubmit,
+    submitted,
+    submittedData,
+  } = useAdmissionForm();
 
-  const inputStyle =
-   "w-full border border-gray-300 bg-white p-3 rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-blue-400 focus:invalid:border-red-500 focus:invalid:ring-red-400 shadow-sm";
-
-  const textareaStyle =
-   "w-full border border-gray-300 bg-white p-3 rounded-xl outline-none transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-blue-400 focus:invalid:border-red-500 focus:invalid:ring-red-400 resize-none shadow-sm";
-   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 py-10 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="bg-white/90 backdrop-blur-md shadow-2xl rounded-3xl overflow-hidden border border-white/30 animate__animated animate__fadeInUp">
-          
+    <div className="admission-container">
+      <div className="admission-wrapper">
+        <div className="admission-card">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8">
-            <h2 className="text-3xl md:text-4xl font-bold flex items-center justify-center gap-3">
+          <div className="admission-header">
+            <h2 className="admission-title">
               <FaUserDoctor />
               Patient Admission Form
             </h2>
 
-            <p className="text-center mt-3 text-blue-100 text-lg">
+            <p className="admission-subtitle">
               AI Healthcare & Telemedicine Ecosystem
             </p>
           </div>
 
           {/* Form */}
-          <div className="p-6 md:p-10">
-            <form
+          <div className="admission-body">
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
               onSubmit={handleSubmit}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
             >
-              {/* Title */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Title
-                </label>
+              <Form className="form-grid">
+                {/* Title */}
+                <div className="form-group">
+                  <label className="form-label">Title *</label>
 
-                <select
-                  name="title"
-                  value={formData.title}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                >
-                  <option value="">Select Title</option>
-                  <option>Mr.</option>
-                  <option>Mrs.</option>
-                  <option>Ms.</option>
-                  <option>Dr.</option>
-                </select>
-              </div>
+                  <Field as="select" name="title" className="input-style">
+                    <option value="">Select Title</option>
+                    <option>Mr.</option>
+                    <option>Mrs.</option>
+                    <option>Ms.</option>
+                    <option>Dr.</option>
+                  </Field>
 
-              {/* Patient Name */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Patient Name
-                </label>
+                  <ErrorMessage
+                    name="title"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <input
-                  type="text"
-                  name="patientName"
-                  placeholder="Enter Patient Name"
-                  pattern="[A-Za-z\s]{2,50}"
-                  title="Name should contain only letters"
-                  value={formData.patientName}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                {/* Patient Name */}
+                <div className="form-group">
+                  <label className="form-label">Patient Name *</label>
 
-              {/* DOB */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Date of Birth
-                </label>
+                  <Field
+                    type="text"
+                    name="patientName"
+                    placeholder="Enter Patient Name"
+                    className="input-style"
+                  />
 
-                <input
-                  type="date"
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <ErrorMessage
+                    name="patientName"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* Age */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">Age</label>
+                {/* DOB */}
+                <div className="form-group">
+                  <label className="form-label">Date of Birth *</label>
 
-                <input
-                  type="number"
-                  name="age"
-                  placeholder="Enter Age"
-                  min="1"
-                  max="120"
-                  value={formData.age}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <Field type="date" name="dob" className="input-style" />
 
-              {/* Gender */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Gender
-                </label>
+                  <ErrorMessage
+                    name="dob"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                >
-                  <option value="">Select Gender</option>
-                  <option>Male</option>
-                  <option>Female</option>
-                  <option>Other</option>
-                </select>
-              </div>
+                {/* Age */}
+                <div className="form-group">
+                  <label className="form-label">Age *</label>
 
-              {/* Marital Status */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Marital Status
-                </label>
+                  <Field
+                    type="number"
+                    name="age"
+                    placeholder="Enter Age"
+                    className="input-style"
+                  />
 
-                <select
-                  name="maritalStatus"
-                  value={formData.maritalStatus}
-                  onChange={handleChange}
-                  className={inputStyle}
-                >
-                  <option value="">Select Marital Status</option>
-                  <option>Single</option>
-                  <option>Married</option>
-                  <option>Divorced</option>
-                  <option>Widowed</option>
-                </select>
-              </div>
+                  <ErrorMessage
+                    name="age"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* Mobile */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Mobile Number
-                </label>
+                {/* Gender */}
+                <div className="form-group">
+                  <label className="form-label">Gender *</label>
 
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Enter Mobile Number"
-                  pattern="[6-9]{1}[0-9]{9}"
-                  title="Enter valid 10 digit mobile number"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <Field as="select" name="gender" className="input-style">
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </Field>
 
-              {/* Home Phone */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Home Phone
-                </label>
+                  <ErrorMessage
+                    name="gender"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <input
-                  type="tel"
-                  name="homePhone"
-                  placeholder="Enter Home Phone"
-                  pattern="[0-9]{10}"
-                  title="Enter valid home phone number"
-                  value={formData.homePhone}
-                  onChange={handleChange}
-                  className={inputStyle}
-                />
-              </div>
+                {/* Marital Status */}
+                <div className="form-group">
+                  <label className="form-label">Marital Status *</label>
 
-              {/* Email */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Email Address
-                </label>
+                  <Field
+                    as="select"
+                    name="maritalStatus"
+                    className="input-style"
+                  >
+                    <option value="">Select Marital Status</option>
+                    <option>Single</option>
+                    <option>Married</option>
+                    <option>Divorced</option>
+                    <option>Widowed</option>
+                  </Field>
 
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Enter Email Address"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <ErrorMessage
+                    name="maritalStatus"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* Blood Group */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Blood Group
-                </label>
+                {/* Mobile */}
+                <div className="form-group">
+                  <label className="form-label">Mobile Number *</label>
 
-                <select
-                  name="bloodGroup"
-                  value={formData.bloodGroup}
-                  onChange={handleChange}
-                  className={inputStyle}
-                >
-                  <option value="">Select Blood Group</option>
-                  <option>A+</option>
-                  <option>A-</option>
-                  <option>B+</option>
-                  <option>B-</option>
-                  <option>AB+</option>
-                  <option>AB-</option>
-                  <option>O+</option>
-                  <option>O-</option>
-                </select>
-              </div>
+                  <Field
+                    type="text"
+                    name="phone"
+                    placeholder="Enter Mobile Number"
+                    className="input-style"
+                  />
 
-              {/* Address */}
-              <div className="md:col-span-2 flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Address
-                </label>
+                  <ErrorMessage
+                    name="phone"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <textarea
-                  name="address"
-                  placeholder="Enter Full Address"
-                  rows="3"
-                  value={formData.address}
-                  onChange={handleChange}
-                  className={textareaStyle}
-                  required
-                />
-              </div>
+                {/* Home Phone */}
+                <div className="form-group">
+                  <label className="form-label">Home Phone</label>
 
-              {/* City */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">City</label>
+                  <Field
+                    type="text"
+                    name="homePhone"
+                    placeholder="Enter Home Phone"
+                    className="input-style"
+                  />
 
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="Enter City"
-                  pattern="[A-Za-z\s]{2,30}"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <ErrorMessage
+                    name="homePhone"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* State */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  State
-                </label>
+                {/* Email */}
+                <div className="form-group">
+                  <label className="form-label">Email Address *</label>
 
-                <input
-                  type="text"
-                  name="state"
-                  placeholder="Enter State"
-                  pattern="[A-Za-z\s]{2,30}"
-                  value={formData.state}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Enter Email Address"
+                    className="input-style"
+                  />
 
-              {/* Zip */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Zip Code
-                </label>
+                  <ErrorMessage
+                    name="email"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <input
-                  type="text"
-                  name="zipCode"
-                  placeholder="Enter Zip Code"
-                  pattern="[0-9]{6}"
-                  value={formData.zipCode}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                {/* Blood Group */}
+                <div className="form-group">
+                  <label className="form-label">Blood Group *</label>
 
-              {/* Emergency */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Emergency Contact
-                </label>
+                  <Field as="select" name="bloodGroup" className="input-style">
+                    <option value="">Select Blood Group</option>
+                    <option>A+</option>
+                    <option>A-</option>
+                    <option>B+</option>
+                    <option>B-</option>
+                    <option>AB+</option>
+                    <option>AB-</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                  </Field>
 
-                <input
-                  type="tel"
-                  name="emergencyContact"
-                  placeholder="Enter Emergency Contact"
-                  pattern="[6-9]{1}[0-9]{9}"
-                  value={formData.emergencyContact}
-                  onChange={handleChange}
-                  className={inputStyle}
-                />
-              </div>
+                  <ErrorMessage
+                    name="bloodGroup"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* Disease */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Disease / Problem
-                </label>
+                {/* Address */}
+                <div className="form-group full-width">
+                  <label className="form-label">Address *</label>
 
-                <input
-                  type="text"
-                  name="disease"
-                  placeholder="Enter Disease / Problem"
-                  value={formData.disease}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                  <Field
+                    as="textarea"
+                    name="address"
+                    rows="3"
+                    placeholder="Enter Full Address"
+                    className="textarea-style"
+                  />
 
-              {/* Doctor */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Doctor Assigned
-                </label>
+                  <ErrorMessage
+                    name="address"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <select
-                  name="doctor"
-                  value={formData.doctor}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                >
-                  <option value="">Select Doctor</option>
+                {/* City */}
+                <div className="form-group">
+                  <label className="form-label">City *</label>
 
-                  {doctors.map((doc) => (
-                    <option key={doc.id} value={doc.name}>
-                      {doc.name} - {doc.department}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <Field
+                    type="text"
+                    name="city"
+                    placeholder="Enter City"
+                    className="input-style"
+                  />
 
-              {/* Admission Date */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Admission Date
-                </label>
+                  <ErrorMessage
+                    name="city"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <input
-                  type="date"
-                  name="admissionDate"
-                  value={formData.admissionDate}
-                  onChange={handleChange}
-                  className={inputStyle}
-                  required
-                />
-              </div>
+                {/* State */}
+                <div className="form-group">
+                  <label className="form-label">State *</label>
 
-              {/* Insurance */}
-              <div className="flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Insurance Provider
-                </label>
+                  <Field
+                    type="text"
+                    name="state"
+                    placeholder="Enter State"
+                    className="input-style"
+                  />
 
-                <input
-                  type="text"
-                  name="insurance"
-                  placeholder="Enter Insurance Provider"
-                  value={formData.insurance}
-                  onChange={handleChange}
-                  className={inputStyle}
-                />
-              </div>
+                  <ErrorMessage
+                    name="state"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-              {/* Symptoms */}
-              <div className="md:col-span-2 flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Symptoms
-                </label>
+                {/* Zip Code */}
+                <div className="form-group">
+                  <label className="form-label">Zip Code *</label>
 
-                <textarea
-                  name="symptoms"
-                  placeholder="Enter Symptoms"
-                  rows="3"
-                  value={formData.symptoms}
-                  onChange={handleChange}
-                  className={textareaStyle}
-                />
-              </div>
+                  <Field
+                    type="text"
+                    name="zipCode"
+                    placeholder="Enter Zip Code"
+                    className="input-style"
+                  />
 
-              {/* Notes */}
-              <div className="md:col-span-2 flex flex-col">
-                <label className="mb-2 font-semibold text-gray-700">
-                  Additional Notes
-                </label>
+                  <ErrorMessage
+                    name="zipCode"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
 
-                <textarea
-                  name="notes"
-                  placeholder="Enter Additional Notes"
-                  rows="3"
-                  value={formData.notes}
-                  onChange={handleChange}
-                  className={textareaStyle}
-                />
-              </div>
+                {/* Emergency Contact */}
+                <div className="form-group">
+                  <label className="form-label">Emergency Contact</label>
 
-              {/* Submit Button */}
-              <div className="md:col-span-2">
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-2xl hover:scale-[1.01] active:scale-[0.99]"
-                >
-                  Submit Admission
-                </button>
-              </div>
-            </form>
+                  <Field
+                    type="text"
+                    name="emergencyContact"
+                    placeholder="Enter Emergency Contact"
+                    className="input-style"
+                  />
+
+                  <ErrorMessage
+                    name="emergencyContact"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
+
+                {/* Disease */}
+                <div className="form-group">
+                  <label className="form-label">Disease / Problem *</label>
+
+                  <Field
+                    type="text"
+                    name="disease"
+                    placeholder="Enter Disease / Problem"
+                    className="input-style"
+                  />
+
+                  <ErrorMessage
+                    name="disease"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
+
+                {/* Doctor */}
+                <div className="form-group">
+                  <label className="form-label">Doctor Assigned *</label>
+
+                  <Field as="select" name="doctor" className="input-style">
+                    <option value="">Select Doctor</option>
+
+                    {doctors.map((doc) => (
+                      <option key={doc.id} value={doc.name}>
+                        {doc.name} - {doc.department}
+                      </option>
+                    ))}
+                  </Field>
+
+                  <ErrorMessage
+                    name="doctor"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
+
+                {/* Admission Date */}
+                <div className="form-group">
+                  <label className="form-label">Admission Date *</label>
+
+                  <Field
+                    type="date"
+                    name="admissionDate"
+                    className="input-style"
+                  />
+
+                  <ErrorMessage
+                    name="admissionDate"
+                    component="span"
+                    className="error-style"
+                  />
+                </div>
+
+                {/* Insurance */}
+                <div className="form-group">
+                  <label className="form-label">Insurance Provider</label>
+
+                  <Field
+                    type="text"
+                    name="insurance"
+                    placeholder="Enter Insurance Provider"
+                    className="input-style"
+                  />
+                </div>
+
+                {/* Symptoms */}
+                <div className="form-group full-width">
+                  <label className="form-label">Symptoms</label>
+
+                  <Field
+                    as="textarea"
+                    name="symptoms"
+                    rows="3"
+                    placeholder="Enter Symptoms"
+                    className="textarea-style"
+                  />
+                </div>
+
+                {/* Notes */}
+                <div className="form-group full-width">
+                  <label className="form-label">Additional Notes</label>
+
+                  <Field
+                    as="textarea"
+                    name="notes"
+                    rows="3"
+                    placeholder="Enter Additional Notes"
+                    className="textarea-style"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div className="full-width">
+                  <button type="submit" className="submit-btn">
+                    Submit Admission
+                  </button>
+                </div>
+              </Form>
+            </Formik>
 
             {/* Confirmation */}
             {submitted && (
-              <div className="mt-10 bg-gradient-to-r from-green-50 to-green-100 border border-green-300 rounded-2xl p-6 shadow-lg">
-                <h3 className="text-2xl font-bold text-green-700 mb-6">
-                  Admission Confirmed
-                </h3>
+              <div className="confirmation-box">
+                <h3 className="confirmation-title">Admission Confirmed</h3>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+                <div className="confirmation-grid">
                   <p>
                     <strong>Name:</strong> {submittedData?.title}{" "}
                     {submittedData?.patientName}
