@@ -2,15 +2,13 @@ import doctors from "../data/dummaydata";
 import useAdmissionForm from "../hooks/useAdmissionForm";
 import { FaUserDoctor } from "react-icons/fa6";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import "../style/AdmissionForm.css";
+import "./AdmissionForm.css";
 
 const AdmissionForm = () => {
   const {
     initialValues,
     validationSchema,
-    handleSubmit,
-    submitted,
-    submittedData,
+    handleSubmit
   } = useAdmissionForm();
 
   return (
@@ -361,6 +359,7 @@ const AdmissionForm = () => {
                     type="date"
                     name="admissionDate"
                     className="input-style"
+                    min={new Date().toISOString().split("T")[0]}
                   />
 
                   <ErrorMessage
@@ -416,57 +415,6 @@ const AdmissionForm = () => {
                 </div>
               </Form>
             </Formik>
-
-            {/* Confirmation */}
-            {submitted && (
-              <div className="confirmation-box">
-                <h3 className="confirmation-title">Admission Confirmed</h3>
-
-                <div className="confirmation-grid">
-                  <p>
-                    <strong>Name:</strong> {submittedData?.title}{" "}
-                    {submittedData?.patientName}
-                  </p>
-
-                  <p>
-                    <strong>Gender:</strong> {submittedData?.gender}
-                  </p>
-
-                  <p>
-                    <strong>Age:</strong> {submittedData?.age}
-                  </p>
-
-                  <p>
-                    <strong>DOB:</strong> {submittedData?.dob}
-                  </p>
-
-                  <p>
-                    <strong>Email:</strong> {submittedData?.email}
-                  </p>
-
-                  <p>
-                    <strong>Phone:</strong> {submittedData?.phone}
-                  </p>
-
-                  <p>
-                    <strong>Doctor:</strong> {submittedData?.doctor}
-                  </p>
-
-                  <p>
-                    <strong>Disease:</strong> {submittedData?.disease}
-                  </p>
-
-                  <p>
-                    <strong>Blood Group:</strong> {submittedData?.bloodGroup}
-                  </p>
-
-                  <p>
-                    <strong>Admission Date:</strong>{" "}
-                    {submittedData?.admissionDate}
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>

@@ -61,7 +61,9 @@ const admissionValidationSchema = Yup.object({
 
   doctor: Yup.string().required("Doctor is required"),
 
-  admissionDate: Yup.string().required("Admission date is required"),
+  admissionDate: Yup.date()
+    .min(new Date(new Date().setHours(0, 0, 0, 0)), "Old dates are not allowed")
+    .required("Admission date is required"),
 
   insurance: Yup.string(),
 

@@ -1,16 +1,10 @@
 import Swal from "sweetalert2";
-import { useState } from "react";
-import admissionValidationSchema from "../validations/admissionValidation";
+// import { useState } from "react";
+import admissionValidationSchema from "../pages/AdmissionPage/admissionValidation";
 import { useNavigate } from "react-router-dom";
 
-
 const useAdmissionForm = () => {
-  const [submitted, setSubmitted] = useState(false);
-
-  const [submittedData, setSubmittedData] = useState(null);
-
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const initialValues = {
     title: "",
@@ -30,7 +24,7 @@ const useAdmissionForm = () => {
     emergencyContact: "",
     disease: "",
     doctor: "",
-    admissionDate: "",
+    admissionDate: new Date().toISOString().split("T")[0],
     insurance: "",
     symptoms: "",
     notes: "",
@@ -48,10 +42,6 @@ const useAdmissionForm = () => {
     });
 
     if (result.isConfirmed) {
-      setSubmitted(true);
-
-      setSubmittedData(values);
-
       Swal.fire({
         title: "Admission Submitted!",
         text: "Patient admission completed successfully.",
@@ -59,9 +49,9 @@ const useAdmissionForm = () => {
         confirmButtonColor: "#2563eb",
       });
 
-        navigate("/confirmation", {
-          state: values,
-        });
+      navigate("/confirmation", {
+        state: values,
+      });
 
       resetForm();
     }
@@ -71,8 +61,6 @@ const useAdmissionForm = () => {
     initialValues,
     validationSchema: admissionValidationSchema,
     handleSubmit,
-    submitted,
-    submittedData,
   };
 };
 

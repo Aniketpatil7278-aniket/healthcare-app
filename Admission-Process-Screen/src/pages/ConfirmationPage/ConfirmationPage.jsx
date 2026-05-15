@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaCircleCheck } from "react-icons/fa6";
-import "../style/ConfirmationPage.css";
+import "../ConfirmationPage/ConfirmationPage.css";
 
 const ConfirmationPage = () => {
   const location = useLocation();

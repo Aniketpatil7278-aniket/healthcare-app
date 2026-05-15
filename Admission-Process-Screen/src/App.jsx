@@ -1,7 +1,7 @@
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import AdmissionPage from './pages/AdmissionPage'
-import ConfirmationPage from './pages/ConfirmationPage'
+import AdmissionPage from './pages/AdmissionPage/AdmissionPage'
+import ConfirmationPage from './pages/ConfirmationPage/ConfirmationPage'
 
 function App() {
   

@@ -1,4 +1,4 @@
-import AdmissionForm from "../components/AdmissionForm";
+import AdmissionForm from "../../components/AdmissionForm";
 
 const AdmissionPage = () => {
   return (
