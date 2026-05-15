@@ -3,6 +3,7 @@ import useAdmissionForm from "../hooks/useAdmissionForm";
 import { FaUserDoctor } from "react-icons/fa6";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "./AdmissionForm.css";
+import calculateAge from '../pages/AdmissionPage/utils'
 
 const AdmissionForm = () => {
   const {
@@ -76,7 +77,22 @@ const AdmissionForm = () => {
                 <div className="form-group">
                   <label className="form-label">Date of Birth *</label>
 
-                  <Field type="date" name="dob" className="input-style" />
+                  <Field name="dob">
+                    {({ field, form }) => (
+                      <input
+                        type="date"
+                        {...field}
+                        className="input-style"
+                        onChange={(e) => {
+                          const dob = e.target.value;
+
+                          form.setFieldValue("dob", dob);
+
+                          form.setFieldValue("age", calculateAge(dob));
+                        }}
+                      />
+                    )}
+                  </Field>
 
                   <ErrorMessage
                     name="dob"
@@ -92,8 +108,8 @@ const AdmissionForm = () => {
                   <Field
                     type="number"
                     name="age"
-                    placeholder="Enter Age"
                     className="input-style"
+                    readOnly
                   />
 
                   <ErrorMessage
@@ -102,7 +118,6 @@ const AdmissionForm = () => {
                     className="error-style"
                   />
                 </div>
-
                 {/* Gender */}
                 <div className="form-group">
                   <label className="form-label">Gender *</label>
